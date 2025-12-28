@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เคาท์ดาวน์ปีใหม่สุดมันส์ 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0f172a;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            user-select: none; /* Prevent text selection for better game feel */
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 0, 221, 0.5);
+        }
+        .neon-border {
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.5), inset 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+        .animate-pulse-fast {
+            animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+        }
+        .floating-wish {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: bold;
+            pointer-events: none;
+            animation: floatUp 10s linear forwards;
+            white-space: nowrap;
+            z-index: 1;
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 300;
+            pointer-events: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col items-center justify-center relative text-white">
+
+    <!-- Canvas for Fireworks -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Share Button (New) -->
+    <button onclick="shareApp()" class="absolute top-4 right-4 z-20 glass-panel p-3 rounded-full hover:bg-white/10 transition-colors group" title="แชร์">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white group-hover:text-cyan-300 transition-colors">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+    </button>
+
+    <!-- UI Container -->
+    <div class="z-10 w-full max-w-4xl px-4 flex flex-col items-center gap-8">
+        
+        <!-- Header -->
+        <div class="text-center space-y-2">
+            <h2 class="text-xl md:text-2xl text-cyan-300 font-light tracking-widest uppercase">นับถอยหลังสู่ปีใหม่</h2>
+            <h1 class="text-5xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 glow-text leading-tight">
+                สวัสดีปี 2026
+            </h1>
+        </div>
+
+        <!-- Timer Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+            <!-- Days -->
+            <div class="glass-panel rounded-2xl p-4 flex flex-col items-center justify-center transform hover:scale-105 transition-transform duration-300 neon-border border-cyan-500/30">
+                <span id="days" class="text-4xl md:text-6xl font-bold text-cyan-400">00</span>
+                <span class="text-xs md:text-sm text-gray-300 mt-1 uppercase tracking-wider">วัน</span>
+            </div>
+            <!-- Hours -->
+            <div class="glass-panel rounded-2xl p-4 flex flex-col items-center justify-center transform hover:scale-105 transition-transform duration-300 neon-border border-purple-500/30">
+                <span id="hours" class="text-4xl md:text-6xl font-bold text-purple-400">00</span>
+                <span class="text-xs md:text-sm text-gray-300 mt-1 uppercase tracking-wider">ชั่วโมง</span>
+            </div>
+            <!-- Minutes -->
+            <div class="glass-panel rounded-2xl p-4 flex flex-col items-center justify-center transform hover:scale-105 transition-transform duration-300 neon-border border-pink-500/30">
+                <span id="minutes" class="text-4xl md:text-6xl font-bold text-pink-400">00</span>
+                <span class="text-xs md:text-sm text-gray-300 mt-1 uppercase tracking-wider">นาที</span>
+            </div>
+            <!-- Seconds -->
+            <div class="glass-panel rounded-2xl p-4 flex flex-col items-center justify-center transform hover:scale-105 transition-transform duration-300 neon-border border-yellow-500/30 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-yellow-500/10 group-hover:bg-yellow-500/20 transition-colors"></div>
+                <span id="seconds" class="text-4xl md:text-6xl font-bold text-yellow-400 animate-pulse-fast">00</span>
+                <span class="text-xs md:text-sm text-gray-300 mt-1 uppercase tracking-wider">วินาที</span>
+            </div>
+        </div>
+
+        <!-- Interactivity Section: Wishes -->
+        <div class="glass-panel rounded-full p-2 pl-6 flex items-center w-full max-w-lg mt-4 shadow-2xl relative">
+            <input type="text" id="wishInput" placeholder="พิมพ์คำอธิษฐานของคุณที่นี่..." 
+                class="bg-transparent border-none outline-none text-white w-full placeholder-gray-400 font-light text-sm md:text-base">
+            <button onclick="sendWish()" 
+                class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-full px-6 py-2 ml-2 font-bold shadow-lg transform active:scale-95 transition-all whitespace-nowrap">
+                ส่งขึ้นฟ้า 🚀
+            </button>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-2 font-light">*แตะที่ว่างเพื่อจุดพลุเล่น!</p>
+    </div>
+
+    <!-- Happy New Year Modal (Hidden by default) -->
+    <div id="newYearModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-1000">
+        <div class="text-center transform scale-0 transition-transform duration-1000" id="modalContent">
+            <h1 class="text-6xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 glow-text mb-4">
+                สวัสดีปีใหม่<br>2569!
+            </h1>
+            <p class="text-xl md:text-3xl text-white font-light">ขอให้ปีนี้เป็นปีที่ดีของคุณ</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification (New) -->
+    <div id="toast" class="toast">คัดลอกลิงก์เรียบร้อย!</div>
+
+    <script>
+        // --- Countdown Logic ---
+        // Target: Jan 1, 2026 00:00:00
+        const targetDate = new Date("January 1, 2026 00:00:00").getTime();
+        let isNewYear = false;
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                // Happy New Year!
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                
+                if (!isNewYear) {
+                    triggerNewYear();
+                }
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+
+        function triggerNewYear() {
+            isNewYear = true;
+            // Show Modal
+            const modal = document.getElementById("newYearModal");
+            const content = document.getElementById("modalContent");
+            modal.classList.remove("opacity-0", "pointer-events-none");
+            content.classList.remove("scale-0");
+            
+            // Launch automatic massive fireworks
+            setInterval(() => {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * (canvas.height / 2); // Upper half
+                createFirework(x, y);
+            }, 300);
+        }
+
+        // --- Wish System ---
+        const wishInput = document.getElementById('wishInput');
+        
+        wishInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendWish();
+            }
+        });
+
+        function sendWish() {
+            const text = wishInput.value.trim();
+            if (text === "") return;
+
+            // Create wish element
+            const wishEl = document.createElement('div');
+            wishEl.classList.add('floating-wish');
+            wishEl.innerText = text;
+            
+            // Random start position
+            const startX = Math.random() * (window.innerWidth - 100);
+            wishEl.style.left = `${startX}px`;
+            wishEl.style.bottom = '10%';
+            
+            // Random Size and Font
+            const size = Math.random() * 1.5 + 1; // 1rem to 2.5rem
+            wishEl.style.fontSize = `${size}rem`;
+            wishEl.style.color = `hsl(${Math.random() * 360}, 100%, 80%)`;
+
+            document.body.appendChild(wishEl);
+
+            // Create firework at start position
+            createFirework(startX + 50, window.innerHeight - 100);
+
+            // Clear input
+            wishInput.value = "";
+
+            // Cleanup
+            setTimeout(() => {
+                wishEl.remove();
+            }, 10000);
+        }
+
+        // --- Canvas & Fireworks Logic ---
+        const canvas = document.getElementById("fireworksCanvas");
+        const ctx = canvas.getContext("2d");
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                // Random velocity in all directions
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 5 + 2;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.015 + 0.005;
+                this.gravity = 0.05;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += this.gravity;
+                this.alpha -= this.decay;
+                
+                // Friction
+                this.vx *= 0.98;
+                this.vy *= 0.98;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function createFirework(x, y) {
+            const colors = ['#ff0055', '#00ddff', '#ffff00', '#ff00ff', '#00ff00', '#ffffff'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const particleCount = 60; // Particles per explosion
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+
+        // Animation Loop
+        function animate() {
+            // Semi-transparent background for trail effect
+            ctx.fillStyle = "rgba(15, 23, 42, 0.2)"; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw();
+
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Click to launch firework
+        canvas.addEventListener('click', (e) => {
+            createFirework(e.clientX, e.clientY);
+        });
+        
+        // Touch support
+        canvas.addEventListener('touchstart', (e) => {
+            for (let i = 0; i < e.touches.length; i++) {
+                createFirework(e.touches[i].clientX, e.touches[i].clientY);
+            }
+        });
+
+        // --- Share Logic (New) ---
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        async function shareApp() {
+            const shareData = {
+                title: 'เคาท์ดาวน์ปีใหม่ 2026',
+                text: 'มาร่วมนับถอยหลังสู่ปี 2026 ด้วยกัน! จุดพลุเล่นได้เลย 🎆',
+                url: window.location.href
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    // Fallback for desktop/iframe: Copy URL
+                    const dummy = document.createElement('textarea');
+                    dummy.value = window.location.href;
+                    document.body.appendChild(dummy);
+                    dummy.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(dummy);
+                    showToast('คัดลอกลิงก์แล้ว! นำไปโพสต์ Facebook ได้เลย');
+                }
+            } catch (err) {
+                console.log('Error sharing:', err);
+                showToast('ไม่สามารถแชร์ได้ในขณะนี้');
+            }
+        }
+
+    </script>
+</body>
+</html>
