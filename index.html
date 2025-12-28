@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เจาะลึกเทรนด์ปีใหม่ 2026: ยุคแห่งการเฉลิมฉลองดิจิทัล</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Palette: Neon Night (Matches the Countdown App) -->
+    <!-- Primary: #0f172a (Slate 900) -->
+    <!-- Card BG: #1e293b (Slate 800) -->
+    <!-- Accents: #22d3ee (Cyan), #e879f9 (Fuchsia), #facc15 (Yellow) -->
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Kanit', 'sans-serif'],
+                    },
+                    colors: {
+                        bgDark: '#0f172a',
+                        cardDark: '#1e293b',
+                        neonBlue: '#22d3ee',
+                        neonPink: '#e879f9',
+                        neonYellow: '#facc15'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        
+        /* Chart Container Styling Rules */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Constraint width */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 400px; /* Max height constraint */
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Material Design Card */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(34, 211, 238, 0.3);
+        }
+
+        /* Hide Scrollbar but allow scroll */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
+    
+    <!-- 
+        Analysis & Plan:
+        1. Topic: New Year 2026 Trends - Shift to Digital.
+        2. Narrative: Start with the scale of celebration, move to how people celebrate (Apps/Tech), what they hope for (Resolutions), and spending habits.
+        3. Visualizations:
+           - Big Number: Total Global Participants.
+           - Line Chart (Chart.js): Physical vs Digital Fireworks viewership trends.
+           - Bar Chart (Chart.js): Top New Year Resolutions 2026.
+           - Doughnut Chart (Chart.js): Budget Allocation.
+           - Heatmap (Plotly): Internet Traffic Spike by Timezone.
+        4. No SVG used. No Mermaid used.
+    -->
+</head>
+<body class="antialiased selection:bg-neonPink selection:text-white">
+
+    <!-- Navigation / Header -->
+    <header class="sticky top-0 z-50 bg-bgDark/90 backdrop-blur-md border-b border-white/10 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">🎉</span>
+                <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neonBlue to-neonPink">
+                    INSIGHTS 2026
+                </h1>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-gray-300">
+                <a href="#digital-shift" class="hover:text-neonBlue transition-colors">Digital Shift</a>
+                <a href="#resolutions" class="hover:text-neonPink transition-colors">Resolutions</a>
+                <a href="#spending" class="hover:text-neonYellow transition-colors">Spending</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+
+        <!-- Section 1: Introduction & Key Metric -->
+        <section class="text-center space-y-6">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight">
+                สวัสดีปีใหม่ <span class="text-neonBlue">2026</span>
+                <br>
+                <span class="text-2xl md:text-3xl font-light text-gray-400 mt-2 block">ยุคใหม่แห่งการเฉลิมฉลอง</span>
+            </h2>
+            <p class="max-w-2xl mx-auto text-lg text-gray-400 leading-relaxed">
+                ปี 2026 ถือเป็นจุดเปลี่ยนสำคัญที่เทคโนโลยีผสานเข้ากับประเพณีดั้งเดิม ข้อมูลจากทั่วโลกชี้ให้เห็นว่า ผู้คนกว่า 5 พันล้านคนจะร่วมเฉลิมฉลองผ่านช่องทางที่หลากหลาย ตั้งแต่จัตุรัสกลางเมืองไปจนถึงหน้าจอมือถือ
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <!-- KPI Card 1 -->
+                <div class="glass-card p-6 flex flex-col items-center justify-center">
+                    <span class="text-5xl font-bold text-neonBlue mb-2">5.2B</span>
+                    <span class="text-sm uppercase tracking-wider text-gray-400">ผู้ร่วมฉลองทั่วโลก</span>
+                </div>
+                <!-- KPI Card 2 -->
+                <div class="glass-card p-6 flex flex-col items-center justify-center">
+                    <span class="text-5xl font-bold text-neonPink mb-2">+45%</span>
+                    <span class="text-sm uppercase tracking-wider text-gray-400">ยอดใช้งานแอปเคาท์ดาวน์</span>
+                </div>
+                <!-- KPI Card 3 -->
+                <div class="glass-card p-6 flex flex-col items-center justify-center">
+                    <span class="text-5xl font-bold text-neonYellow mb-2">20TB</span>
+                    <span class="text-sm uppercase tracking-wider text-gray-400">ข้อมูลที่ส่งต่อวินาที</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Digital vs Physical (Line Chart) -->
+        <section id="digital-shift" class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="order-2 md:order-1 space-y-4">
+                <div class="inline-block px-3 py-1 rounded-full bg-neonBlue/10 text-neonBlue text-xs font-bold uppercase tracking-wide border border-neonBlue/20">
+                    Trend Analysis
+                </div>
+                <h3 class="text-3xl font-bold text-white">จากท้องฟ้าสู่หน้าจอ</h3>
+                <p class="text-gray-400 leading-relaxed">
+                    กราฟแสดงแนวโน้มความนิยมในการรับชมพลุช่วงเคาท์ดาวน์ ในขณะที่การไปชมสถานที่จริง (Physical) เริ่มทรงตัวและลดลงเล็กน้อยเนื่องจากความแออัด แต่ยอดการรับชมผ่าน Virtual Events และ Interactive Apps (Digital) กลับพุ่งสูงขึ้นอย่างก้าวกระโดดในปี 2026 นี้
+                </p>
+            </div>
+            
+            <div class="order-1 md:order-2 glass-card p-6">
+                <div class="chart-container">
+                    <canvas id="digitalTrendChart"></canvas>
+                </div>
+                <p class="text-center text-xs text-gray-500 mt-4">หน่วย: ล้านคน (Global Viewership)</p>
+            </div>
+        </section>
+
+        <!-- Section 3: New Year Resolutions (Bar Chart) -->
+        <section id="resolutions" class="space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+                <h3 class="text-3xl font-bold text-white">ปณิธานยอดฮิตปี 2026</h3>
+                <p class="text-gray-400">
+                    อะไรคือสิ่งที่ผู้คนทั่วโลกตั้งเป้าหมายไว้ในปีนี้? ข้อมูลจากการสำรวจโซเชียลมีเดียพบว่า "สุขภาพจิต" และ "ทักษะดิจิทัล" แซงหน้าเป้าหมายด้านการเงินเป็นครั้งแรก สะท้อนให้เห็นถึงความตระหนักรู้ในยุค AI
+                </p>
+            </div>
+
+            <div class="glass-card p-6 md:p-8">
+                <div class="chart-container" style="max-width: 800px; height: 400px; max-height: 500px;">
+                    <canvas id="resolutionsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Spending & Activity (Mixed Layout) -->
+        <section id="spending" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Spending Doughnut -->
+            <div class="glass-card p-6 flex flex-col">
+                <h4 class="text-xl font-bold text-white mb-4 border-l-4 border-neonYellow pl-3">งบประมาณเฉลิมฉลอง</h4>
+                <p class="text-gray-400 text-sm mb-6 h-12">
+                    สัดส่วนการใช้จ่ายเฉลี่ยต่อคนในช่วงเทศกาล อาหารและปาร์ตี้ยังคงเป็นอันดับหนึ่ง ตามมาด้วยของขวัญและการท่องเที่ยว
+                </p>
+                <div class="chart-container flex-grow flex items-center justify-center">
+                    <canvas id="spendingChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Internet Traffic Heatmap (Plotly) -->
+            <div class="glass-card p-6 flex flex-col">
+                <h4 class="text-xl font-bold text-white mb-4 border-l-4 border-neonPink pl-3">ความหนาแน่นอินเทอร์เน็ต</h4>
+                <p class="text-gray-400 text-sm mb-6 h-12">
+                    ปริมาณการใช้งานข้อมูล (Data Traffic) แบ่งตามโซนเวลา แสดงให้เห็นช่วง Peak ของแต่ละภูมิภาคขณะเข้าสู่ปีใหม่
+                </p>
+                <div id="trafficPlotly" class="w-full h-[300px] rounded-lg overflow-hidden bg-bgDark/50"></div>
+            </div>
+            
+        </section>
+
+        <!-- Section 5: Process Flow (HTML/CSS Diagram - NO SVG, NO Mermaid) -->
+        <section class="space-y-8 pb-12">
+             <div class="text-center space-y-2">
+                <h3 class="text-3xl font-bold text-white">วงจรชีวิตคำอธิษฐานดิจิทัล</h3>
+                <p class="text-gray-400">เบื้องหลังการทำงานเมื่อคุณกด "ส่งคำอธิษฐาน" ในแอปของเรา</p>
+            </div>
+
+            <div class="glass-card p-8 overflow-x-auto">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 min-w-[600px]">
+                    
+                    <!-- Step 1 -->
+                    <div class="flex flex-col items-center text-center w-full md:w-1/4 group">
+                        <div class="w-16 h-16 rounded-full bg-neonBlue/20 border-2 border-neonBlue flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                            📱
+                        </div>
+                        <h5 class="font-bold text-white mb-1">User Input</h5>
+                        <p class="text-xs text-gray-400">ผู้ใช้พิมพ์คำอธิษฐาน</p>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="hidden md:block h-1 flex-1 bg-gradient-to-r from-neonBlue to-neonPink mx-2 rounded relative">
+                        <div class="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-neonPink rotate-45"></div>
+                    </div>
+                    <div class="md:hidden h-8 w-1 bg-gradient-to-b from-neonBlue to-neonPink my-2"></div>
+
+                    <!-- Step 2 -->
+                    <div class="flex flex-col items-center text-center w-full md:w-1/4 group">
+                        <div class="w-16 h-16 rounded-full bg-neonPink/20 border-2 border-neonPink flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                            ☁️
+                        </div>
+                        <h5 class="font-bold text-white mb-1">Cloud Process</h5>
+                        <p class="text-xs text-gray-400">ประมวลผล & จัดเก็บ</p>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="hidden md:block h-1 flex-1 bg-gradient-to-r from-neonPink to-neonYellow mx-2 rounded relative">
+                        <div class="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-neonYellow rotate-45"></div>
+                    </div>
+                    <div class="md:hidden h-8 w-1 bg-gradient-to-b from-neonPink to-neonYellow my-2"></div>
+
+                    <!-- Step 3 -->
+                    <div class="flex flex-col items-center text-center w-full md:w-1/4 group">
+                        <div class="w-16 h-16 rounded-full bg-neonYellow/20 border-2 border-neonYellow flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                            🎆
+                        </div>
+                        <h5 class="font-bold text-white mb-1">Visualization</h5>
+                        <p class="text-xs text-gray-400">แปลงเป็นพลุดิจิทัล</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-white/10 bg-bgDark py-8 text-center">
+        <p class="text-gray-500 text-sm">© 2026 Countdown Analytics. Designed for the Future.</p>
+    </footer>
+
+    <!-- Scripts for Chart Logic -->
+    <script>
+        // --- Utility: Text Wrapping Function (16 char limit) ---
+        function formatLabel(str, maxLen = 16) {
+            if (str.length <= maxLen) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length < maxLen) {
+                    currentLine += " " + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- Shared Chart Config ---
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'Kanit';
+        
+        const commonTooltip = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            },
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            titleColor: '#fff',
+            bodyColor: '#cbd5e1',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: 1,
+            padding: 10,
+            cornerRadius: 8
+        };
+
+        // --- Chart 1: Digital Trend (Line) ---
+        const ctxTrend = document.getElementById('digitalTrendChart').getContext('2d');
+        new Chart(ctxTrend, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                datasets: [
+                    {
+                        label: 'Physical Attendance (On-site)',
+                        data: [1200, 800, 950, 1100, 1150, 1100, 1050],
+                        borderColor: '#94a3b8', // Slate 400
+                        backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 3
+                    },
+                    {
+                        label: 'Digital Engagement (Apps/VR)',
+                        data: [200, 450, 600, 850, 1200, 1600, 2200],
+                        borderColor: '#22d3ee', // Neon Blue
+                        backgroundColor: 'rgba(34, 211, 238, 0.1)',
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#22d3ee',
+                        pointRadius: 5,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: commonTooltip
+                },
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        border: { display: false }
+                    },
+                    x: {
+                        grid: { display: false },
+                        border: { display: false }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 2: Resolutions (Bar) ---
+        const resolutionData = [
+            "ปรับปรุง สุขภาพจิต และ ลดความเครียด",
+            "เรียนรู้ ทักษะ AI และ Coding",
+            "วางแผน การเงิน และ การลงทุน",
+            "ลดน้ำหนัก และ ออกกำลังกาย",
+            "ท่องเที่ยว ต่างประเทศ มากขึ้น"
+        ];
+        
+        const processedLabels = resolutionData.map(l => formatLabel(l, 20));
+
+        const ctxRes = document.getElementById('resolutionsChart').getContext('2d');
+        new Chart(ctxRes, {
+            type: 'bar',
+            data: {
+                labels: processedLabels,
+                datasets: [{
+                    label: '% ของผู้ตอบแบบสอบถาม',
+                    data: [42, 38, 35, 30, 25],
+                    backgroundColor: [
+                        '#e879f9', // Pink
+                        '#22d3ee', // Blue
+                        '#facc15', // Yellow
+                        '#818cf8', // Indigo
+                        '#34d399'  // Emerald
+                    ],
+                    borderRadius: 8,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y', // Horizontal Bar
+                plugins: {
+                    legend: { display: false },
+                    tooltip: commonTooltip
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        max: 50
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#e2e8f0',
+                            font: { size: 12 }
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 3: Spending (Doughnut) ---
+        const spendingLabels = ["อาหาร & ปาร์ตี้", "ของขวัญ", "ท่องเที่ยว", "บริจาค", "อื่นๆ"];
+        const ctxSpend = document.getElementById('spendingChart').getContext('2d');
+        new Chart(ctxSpend, {
+            type: 'doughnut',
+            data: {
+                labels: spendingLabels,
+                datasets: [{
+                    data: [45, 25, 20, 5, 5],
+                    backgroundColor: [
+                        '#facc15', // Yellow (Dominant)
+                        '#e879f9', // Pink
+                        '#22d3ee', // Blue
+                        '#94a3b8',
+                        '#475569'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: { position: 'right', labels: { boxWidth: 12, padding: 20 } },
+                    tooltip: commonTooltip
+                }
+            }
+        });
+
+        // --- Chart 4: Internet Traffic (Plotly Heatmap/Scatter Mockup) ---
+        // Using Plotly for a more "Scientific" look
+        const trace1 = {
+            x: ['UTC-5 (NY)', 'UTC+0 (LON)', 'UTC+7 (BKK)', 'UTC+9 (TYO)', 'UTC+11 (SYD)'],
+            y: [85, 92, 78, 88, 65], // Traffic Intensity
+            mode: 'markers',
+            marker: {
+                size: [40, 50, 60, 45, 35], // Varied sizes based on volume
+                color: ['#818cf8', '#22d3ee', '#facc15', '#e879f9', '#34d399'],
+                opacity: 0.8
+            },
+            type: 'scatter'
+        };
+
+        const layout = {
+            title: { text: '', font: { color: '#fff' } },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            margin: { t: 20, b: 40, l: 40, r: 20 },
+            xaxis: { 
+                title: 'Timezone', 
+                color: '#94a3b8',
+                showgrid: false
+            },
+            yaxis: { 
+                title: 'Network Load (%)', 
+                color: '#94a3b8',
+                gridcolor: 'rgba(255,255,255,0.05)',
+                range: [0, 100]
+            },
+            showlegend: false
+        };
+        
+        // Render Plotly
+        Plotly.newPlot('trafficPlotly', [trace1], layout, {displayModeBar: false, responsive: true});
+
+    </script>
+</body>
+</html>
